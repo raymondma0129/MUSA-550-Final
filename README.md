@@ -1,8 +1,5 @@
-# Analyzing Parking Trends in San Francisco, CA
+# Parking Analysis in Los Angeles, CA
 
-This project aims to utilize San Francisco’s open parking data to map and visualize parking availability,
-occupancy, and clustering trends within the city over the recent months/years.
+This project is created by Yutong Jiang and Ray Ma
 
-This project was made by Roshini Ganesh and Samriddhi Khare.
-
-The published site for this example repository is available at [this link.](https://samriddhikhar3.github.io/PY_FINAL/)
+The published site for this example repository is available at [this link.](https://raymondma0129.github.io/MUSA-550-Final/docs/analysis/4-folium.html)
