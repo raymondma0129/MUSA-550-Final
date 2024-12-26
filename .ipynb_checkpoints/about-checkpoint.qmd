@@ -1,0 +1,29 @@
+---
+title: "About us"
+---
+
+<!-- Use a grid -->
+::: {.grid}
+
+<!-- Left column has a width of 4/12 and shows a picture of me -->
+::: {.g-col-4}
+![](images/ID1.png){width=3in}
+:::
+
+<!-- Text gets a column with width 8/12 -->
+::: {.g-col-8}
+
+[Samriddhi Khare](https://samriddhikhar3.github.io/) (top) is currently a Research Fellow at Econsult Solutions' Center for Future of Cities. In 2024, she received a Master's in City Planning from the University of Pennsylvania, focusing on cities, data, and technology.
+
+[Roshini Ganesh](https://www.linkedin.com/in/roshini-ganesh-12221759/) (bottom) is a City Planning candidate at UPenn interested in building connected, inclusive, and resilient smart cities using ethical technology. She currently works in transportation planning at Amtrak. 
+
+Together, we share an enthusiam for all things data and cities. This project was conceptualized during a professional visit we made to San Francisco in late 2023, where we observed first hand the city's overt reliance on personal vehicles as the preferred mode of transportation and the equity and sustainabilty challenges that come with it. 
+
+We have created this project using Python, rendering on Quarto and published through Github pages. You can find more information about us on our personal websites linked above. 
+
+::: 
+
+:::
+
+
+

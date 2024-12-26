@@ -1,0 +1,129 @@
+library(tidyverse)
+library(tidycensus)
+library(sf)
+library(tidyr)
+library(dplyr)
+
+acs_variable_list.2021 <- load_variables(2021, #year
+                                         "acs5", #five year ACS estimates
+                                         cache = TRUE)
+# 2021, A
+
+# Retrieve ACS data for Philadelphia tracts in 2020
+tracts21 <- get_acs(
+  geography = "tract",
+  variables = c(
+    "B01003_001",   # Total Population
+    "B19013_001",   # Median Household Income
+    "B25058_001",   # Median Rent
+    #"B25008_002",   # Owner-Occupied Units
+    #"B25008_003",   # Renter-Occupied Units
+    #"B07001_032",   # Same House 75 Years Ago
+    #"B07001_017",   # Same House 1 Year Ago
+    #"B25088_003",   # Median Selected Monthly Owner Costs (homes without a mortgage)
+    #"B25088_002",   # Median Selected Monthly Owner Costs (homes with a mortgage)
+    #"B25064_001",   # Median Gross Rent (rent and utilities)
+    #"B25117_001",   # Percentage of Housing Units with heat
+    "B15003_022",   # Educational Attainment: Bachelor's Degree
+    "B17001_002",   # Percentage of Population Below the Poverty Level
+    #"B28002_004",   # Percentage of Housing Units with High-Speed Internet
+    "B25044_003",   # Percentage of Housing Units with No Vehicle Available
+    "B02001_002",   # Race and Ethnicity: White Alone
+    "B02001_003",   # Race and Ethnicity: Black or African American Alone
+    "B03001_003"    # Hispanic or Latino Origin of Population
+  ),
+  year = 2021,
+  state = "CA",
+  county = "San Francisco",
+  geometry = TRUE,
+  output = "wide"
+)%>%
+  select(-NAME, -ends_with("M")) %>%
+  rename(totalpop = B01003_001E,                           # Total Population
+         med_income = B19013_001E,                         # Median Household Income
+         med_rent = B25058_001E,                           # Median Rent
+       #  owner_units = B25008_002E,                        # Owner-Occupied Units
+        # renter_units = B25008_003E,                       # Renter-Occupied Units
+         #same_house_75 = B07001_032E,                      # Same House 75 Years Ago
+         #same_house_1 = B07001_017E,                       # Same House 1 Year Ago
+        # monthly_costs_no_mortgage = B25088_003E,          # Median Selected Monthly Owner Costs (homes without a mortgage)
+        # monthly_costs_with_mortgage = B25088_002E,        # Median Selected Monthly Owner Costs (homes with a mortgage)
+      #   med_gross_rent = B25064_001E,                     # Median Gross Rent (rent and utilities)
+     #    housing_units_with_heat = B25117_001E,            # Percentage of Housing Units with heat
+         edu_bachelors = B15003_022E,                      # Educational Attainment: Bachelor's Degree
+         pop_below_poverty = B17001_002E,                  # Percentage of Population Below the Poverty Level
+       #  housing_units_high_speed_internet = B28002_004E,  # Percentage of Housing Units with High-Speed Internet
+         housing_units_no_vehicle = B25044_003E,           # Percentage of Housing Units with No Vehicle Available
+         race_white = B02001_002E,                         # Race and Ethnicity: White Alone
+         race_black = B02001_003E,                         # Race and Ethnicity: Black or African American Alone
+         hispanic_latino = B03001_003E                     # Race and Ethnicity: Hispanic or Latino
+  )
+
+
+
+og_vars = c("B01003_001", "B19013_001", 
+            "B02001_002", "B08013_001",
+            "B08012_001", "B08301_001", 
+            "B08301_010", "B01002_001"
+)
+
+added_vars = c("B25026_001E","B02001_002E","B15001_050E",
+               "B15001_009E","B19013_001E","B25058_001E",
+               "B06012_002E", "B08301_003E", "B08301_010E", 
+               "B08301_016E", "B08301_018E", "B08301_021E", 
+               "B08007_001E", "B11016_001E", "B25044_003E", 
+               "B15003_022E", "B01003_001E", "B08301_019E", 
+               "B08301_017E", "B08301_020E", "B08301_004E", 
+               "B08135_001E", "B08303_001E", "B08303_002E", 
+               "B08303_003E", "B08303_004E", "B08303_005E", 
+               "B08303_006E", "B08303_007E", "B08303_008E", 
+               "B08303_009E", "B08303_010E", "B08303_011E", 
+               "B08303_012E", "B08303_013E", "B08301_018E", 
+               "B15003_022E")
+
+SF.census <- get_acs(
+  geography = "tract",
+  variables = unique(c(og_vars, added_vars)),
+  year = 2021,
+  state = "CA",
+  geometry = TRUE,
+  county = c("San Francisco"),
+  output = "wide"
+) %>%
+  rename(
+    Total_Pop = B01003_001E,
+    Med_Inc = B19013_001E,
+    Med_Age = B01002_001E,
+    White_Pop = B02001_002E,
+    Travel_Time = B08013_001E,
+    Num_Commuters = B08012_001E,
+    Means_of_Transport = B08301_001E,
+    Total_Public_Trans = B08301_010E,
+    workforce_16 = B08007_001E,
+    Num_Vehicles = B06012_002E,
+    drove_to_work = B08301_003E,
+    House_holds_no_vehicles = B25044_003E,
+    total_households = B11016_001E
+  ) %>%
+  mutate(
+    workers_commute_30_90min = B08303_008E + B08303_009E + B08303_010E + B08303_011E + B08303_012E + B08303_013E,
+    commute_30_90min_pct = (workers_commute_30_90min / workforce_16),
+    households_car_pct = (Num_Vehicles / total_households),
+    households_NOcar_pct = (House_holds_no_vehicles / total_households),
+    Drive_Work_pct = (drove_to_work / workforce_16),
+    PublicTransport_work_pct = (Total_Public_Trans / workforce_16)
+  ) %>%
+  dplyr::select(
+    Total_Pop, Med_Inc, White_Pop, Travel_Time,
+    Means_of_Transport, Total_Public_Trans, Med_Age,
+    workforce_16, Num_Vehicles, households_NOcar_pct, households_car_pct,
+    commute_30_90min_pct, Drive_Work_pct, PublicTransport_work_pct, geometry
+  ) %>%
+  mutate(
+    Percent_White = White_Pop / Total_Pop,
+    Mean_Commute_Time = Travel_Time / Total_Public_Trans,
+    Percent_Taking_Public_Trans = Total_Public_Trans / Means_of_Transport
+  )
+
+st_write(SF.census, "census.geojson")
+

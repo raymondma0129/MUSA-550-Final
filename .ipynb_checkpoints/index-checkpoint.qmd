@@ -1,0 +1,34 @@
+---
+title: "Analyzing Parking Trends in San Francisco, CA"
+subtitle: "Using data analysis and visualizations to identify trends in parking supply and demand"
+---
+
+Samriddhi Khare, Roshini Ganesh
+Final Project, MUSA 550
+
+![https://www.way.com/blog/4-things-to-know-before-parking-in-san-francisco/](./images/course-icon1.png)
+
+
+## Introduction
+
+San Francisco grapples with persistent challenges in its parking landscape, characterized by limited availability and high demand. The city's densely populated neighborhoods often experience a shortage of parking spaces. These shortges are also reflective of certain social and demographic patterns in the city, as we have uncovered in this research. 
+
+In response to these difficulties, the use of parking apps has gained prominence, offering real-time information on available spaces and facilitating a more efficient navigation of the city's intricate parking network. Increasing the efficiency of such apps could be a significant use case of this analysis. 
+
+Moreover, the city has embraced innovative approaches to address parking issues. The implementation of smart parking meters, capable of adjusting rates based on demand and time of day, represents one such effort. Data from these parking meters has been included in our analysis. Additionally, there has been a push towards dynamic pricing strategies to incentivize turnover and optimize the utilization of parking spaces. These strategies can be more equitably informed if they take in to account how these policies are place within the larger sociodemographic framework of the city. As San Francisco continues to grapple with the complexities of urban parking, these trends underscore a broader shift towards sustainable transportation options and technological solutions in managing the city's parking challenges.
+
+## Data Sources 
+
+This project aims to utilize San Francisco’s open parking data to map and visualize parking availability,
+occupancy, and clustering trends within the city over the recent months/years. We utilized data from numerous sources to make inferences about parking trends in the city. We included data from: 
+
+1. [Open parking dataset](https://data.sfgov.org/Transportation/SFMTA-Parking-Meter-Detailed-Revenue-Transactions/imvp-dq3v/about_data) with locations 
+2. [Parking meter data](https://data.sfgov.org/Transportation/Parking-Meters/8vzz-qzz9/about_data) to cross-validate areas of high parking activity by recorded transactions
+3. [On-Street Parking census](https://data.sfgov.org/Transportation/On-Street-Parking-Census/9ivs-nf5y), which provides counts of publicly available, on-street parking for each street segment
+4. Census data (using the API) for the selected geography
+5. OSM Street Maps data for street network analysis
+
+The code for this repository is hosted on our [GitHub repository.](https://github.com/samriddhikhar3/MUSA_550_Final_Project)
+
+
+ 

@@ -1,0 +1,7 @@
+# Analysis
+
+We divided our analysis in to three distinct steps. Each sub-section highlights different types of analyses and visualizations: 
+
+1. Exploratory Analysis: Exploring the parking meter dataset to understand the relationships between the variables included. 
+2. Census API Data Collection: Collecting socio-economic variables from the American Community Survey fro the year 2021 and joining it to our street and meters data to explore patterns. 
+3. Spatial Processes and Correlations: Exploring the relationships between variables after performing the join and observing correlations between calculated and chosed metrics. 
